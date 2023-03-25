@@ -2,12 +2,23 @@ if not SERVER then return end
 local AI_HEARING_RANGE = 400
 util.AddNetworkString("chatgpt_entspeak")
 util.AddNetworkString("chatgpt_enttextspeak")
+CreateConVar( "openai_key", "", FCVAR_PROTECTED)
 
-openAIAPIKEY = "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"
 
-
+openAIAPIKEY = ""--"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"
+local ai_key_convar = GetConVar("openai_key")
+if not file.Exists("openai_key.txt", "DATA") then
+    file.Write("openai_key.txt", "", "DATA")
+end
+ai_key_convar:SetString(file.Read("openai_key.txt","DATA"))
 local lastOpenAIRequest = 0
+
+cvars.AddChangeCallback("openai_key", function(convar_name, value_old, value_new)
+    print(convar_name, value_old, value_new)
+    file.Write("openai_key.txt", value_new)
+end)
 function getChatGPTResponse(prompt, model, temperature, max_tokens, cb)
+    openAIAPIKEY = ai_key_convar:GetString()
     if not prompt then return end
     datajson = [[
         {"frequency_penalty":0.8,
