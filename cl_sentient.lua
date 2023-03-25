@@ -16,6 +16,7 @@ net.Receive("chatgpt_entspeak", function()
     if (not voice) or voice == "" then 
         voice =  getFirst(tts_voices[model] )
     end
+    text = string.Replace(text, '"', "")
 	url = f(ent, text, voice)
     print(url)
 
@@ -27,7 +28,7 @@ net.Receive("chatgpt_entspeak", function()
 			sound:SetPos( ply:GetPos() )
 			sound:SetVolume( 5 )
 			sound:Play()
-			sound:Set3DFadeDistance( 200, 800 )
+			sound:Set3DFadeDistance( 120, 450 )
 			ent.TTSchatSound = sound
 		end
 

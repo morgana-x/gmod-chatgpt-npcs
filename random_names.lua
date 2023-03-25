@@ -1,3 +1,4 @@
+if not SERVER then return end
 ai_random_names_male = {
     "Mark",
     "Saul",
